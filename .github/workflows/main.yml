@@ -1,0 +1,21 @@
+name: "Comentario PR"
+run-name: "Pipeline executado por ${{github.actor}}"
+on:
+  pull_request:
+    branches: ['main']
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Executando step da PR"
+        run: echo "PR"
+      - name: "Adicionar comentario no PR"
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: "Validacao do PR realizada com sucesso."
+            })
